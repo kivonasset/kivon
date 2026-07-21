@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kivon Asset Management | KAM</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Elegance and Contrast -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0a0b0d',
+                            slate: '#121418',
+                            gold: '#c5a059',
+                            goldLight: '#e5c483',
+                            goldDark: '#997635',
+                            grayLight: '#94a3b8',
+                            border: '#23272f'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Serif KR', 'sans-serif'],
+                        serif: ['Playfair Display', 'Noto Serif KR', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #f5d08b 0%, #c5a059 50%, #997635 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #f5d08b 0%, #c5a059 50%, #997635 100%);
+        }
+        .gold-border-glow {
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.05);
+            transition: all 0.5s ease;
+        }
+        .gold-border-glow:hover {
+            box-shadow: 0 0 30px rgba(197, 160, 89, 0.2);
+            border-color: #c5a059;
+        }
+        
+        /* Interactive Card Flip effect styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .card-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0b0d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #23272f;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c5a059;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-white font-sans antialiased overflow-x-hidden">
+
+    <nav class="fixed w-full z-50 bg-brand-dark/95 backdrop-blur-md border-b border-brand-border transition-all duration-300 py-4" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-row items-center justify-between gap-4 flex-wrap">
+            <!-- Logo Area (Left-aligned, Larger Title) -->
+            <a href="#home" class="flex items-center gap-4 group">
+                <div class="relative w-14 h-14 flex items-center justify-center border border-brand-gold/30 rounded-full bg-brand-slate transition-all duration-300 group-hover:border-brand-gold">
+                    <span class="text-lg font-semibold tracking-wider font-serif gold-gradient-text">KAM</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-3xl font-bold tracking-widest font-serif text-white group-hover:text-brand-gold transition-colors">KIVON</span>
+                    <span class="text-xl tracking-tight text-brand-grayLight uppercase -mt-0.5 font-semibold">Asset Management</span>
+                </div>
+            </a>
+
+            <!-- Always Visible Menu Links (Right-aligned) -->
+            <div class="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-right">
+                <a href="#about" class="text-xs font-semibold tracking-widest uppercase text-brand-grayLight hover:text-brand-gold transition-colors">About Us</a>
+                <a href="#strategies" class="text-xs font-semibold tracking-widest uppercase text-brand-grayLight hover:text-brand-gold transition-colors">Investment Scope</a>
+                <a href="#global-network" class="text-xs font-semibold tracking-widest uppercase text-brand-gold hover:text-brand-goldLight transition-colors">Global Network</a>
+                <a href="#risk-guard" class="text-xs font-semibold tracking-widest uppercase text-brand-gold hover:text-brand-goldLight transition-colors">Risk Guard</a>
+                <a href="#digital-card" class="text-xs font-semibold tracking-widest uppercase text-brand-grayLight hover:text-brand-gold transition-colors">Direct Identity</a>
+                <a href="#contact" class="px-4 py-2 rounded-full text-xs font-semibold tracking-widest uppercase border border-brand-gold/40 hover:border-brand-gold bg-brand-slate/40 text-brand-gold hover:text-white hover:bg-brand-gold/10 transition-all duration-300 ml-1">Get in Touch</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-36 xl:pt-20 overflow-hidden bg-gradient-to-b from-[#0e1014] to-brand-dark">
+        <!-- Background Particle Canvas for elegant luxury ambience -->
+        <div class="absolute inset-0 z-0 opacity-25">
+            <canvas id="ambientCanvas" class="w-full h-full"></canvas>
+        </div>
+
+        <!-- Subtle embossed World Map visual matching the card asset -->
+        <div class="absolute inset-0 opacity-5 flex items-center justify-center pointer-events-none">
+            <i class="fa-solid fa-earth-americas text-[650px] text-brand-grayLight/10"></i>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-gold/20 bg-brand-slate/60 backdrop-blur mb-8">
+                <span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+                <span class="text-xs font-semibold tracking-widest uppercase text-brand-gold">Absolute Wealth Optimization</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight mb-8 leading-[1.1]">
+                Sovereign Capital,<br>
+                <span class="gold-gradient-text">Unyielding Precision</span>
+            </h1>
+
+            <p class="text-base md:text-xl text-brand-grayLight max-w-3xl mx-auto font-light leading-relaxed mb-12">
+                At Kivon Asset Management, we orchestrate custom wealth architectures to shield, multiply, and transmit institutional capital across fluctuating global frameworks.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#strategies" class="w-full sm:w-auto px-8 py-4 rounded-full text-sm font-semibold tracking-wider bg-brand-gold text-brand-dark hover:bg-brand-goldLight transition-all duration-300 text-center shadow-lg shadow-brand-gold/10">
+                    Explore Our Strategies
+                </a>
+                <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-full text-sm font-semibold tracking-wider border border-brand-gold/40 hover:border-brand-gold text-white bg-transparent hover:bg-brand-gold/5 transition-all duration-300 text-center">
+                    Initiate Private Channel
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom Page Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+            <span class="text-[9px] tracking-[0.3em] text-brand-grayLight uppercase">Ascend Below</span>
+            <i class="fa-solid fa-chevron-down text-brand-gold animate-bounce"></i>
+        </div>
+    </section>
+
+    <section class="border-y border-brand-border bg-brand-slate/40 py-16">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+            <div>
+                <div class="text-3xl md:text-4xl font-bold gold-gradient-text mb-2 font-serif">$1.2B+</div>
+                <div class="text-[10px] md:text-xs uppercase tracking-widest text-brand-grayLight">Assets Managed (AUM)</div>
+            </div>
+            <div>
+                <div class="text-3xl md:text-4xl font-bold gold-gradient-text mb-2 font-serif">15+ Yrs</div>
+                <div class="text-[10px] md:text-xs uppercase tracking-widest text-brand-grayLight">Average Partner Experience</div>
+            </div>
+            <div>
+                <div class="text-3xl md:text-4xl font-bold gold-gradient-text mb-2 font-serif">94.2%</div>
+                <div class="text-[10px] md:text-xs uppercase tracking-widest text-brand-grayLight">Client Retention Metric</div>
+            </div>
+            <div>
+                <div class="text-3xl md:text-4xl font-bold gold-gradient-text mb-2 font-serif">Global</div>
+                <div class="text-[10px] md:text-xs uppercase tracking-widest text-brand-grayLight">Network Access Coverage</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <!-- Left Info Block -->
+            <div class="lg:col-span-7">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="h-[1px] w-8 bg-brand-gold"></span>
+                    <span class="text-xs font-semibold tracking-widest uppercase text-brand-gold">Stewardship Principle</span>
+                </div>
+                <h2 class="text-xl md:text-3xl font-serif font-bold tracking-tight mb-8">
+                    Sophisticated Capital Preservation & Yield Optimization
+                </h2>
+                <div class="space-y-6 text-brand-grayLight font-light leading-relaxed">
+                    <p>
+                        Kivon Asset Management (KAM) operates at the nexus of high-conviction micro-analysis and grand macroeconomic modeling. In an era marked by shifting fiscal paradigms, we curate customized exposure frameworks to buffer and capture systematic alpha.
+                    </p>
+                    <p>
+                        Our mandates strictly serve highly discretionary sovereign portfolios and private families who demand absolute confidentiality, high integrity, and analytical transparency.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full border border-brand-gold/20 flex items-center justify-center bg-brand-slate text-brand-gold">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white mb-1">Confidential Shielding</h4>
+                            <p class="text-xs text-brand-grayLight font-light">Strict private structures protecting absolute partner identities and allocations.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full border border-brand-gold/20 flex items-center justify-center bg-brand-slate text-brand-gold">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white mb-1">Bespoke Strategies</h4>
+                            <p class="text-xs text-brand-grayLight font-light">We craft individual, non-standard solutions optimized for specific target returns.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Executive Showcase Box -->
+            <div class="lg:col-span-5 bg-brand-slate/40 border border-brand-border p-8 rounded-3xl">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-40 h-40 rounded-full border-2 border-brand-gold/30 p-2 bg-brand-slate flex items-center justify-center mb-6 overflow-hidden">
+                        <div class="w-full h-full rounded-full bg-brand-dark flex flex-col items-center justify-center border border-brand-gold/20">
+                            <span class="font-serif text-3xl text-brand-gold font-bold">KAM</span>
+                            <span class="text-[8px] uppercase tracking-widest text-brand-grayLight">CEO</span>
+                        </div>
+                    </div>
+                    <span class="text-xs uppercase tracking-widest text-brand-gold font-semibold mb-1">Chief Executive Officer</span>
+                    <h3 class="text-2xl font-serif font-bold text-white mb-4">MIN BYUNGKYU</h3>
+                    
+                    <p class="text-sm text-brand-grayLight font-light leading-relaxed mb-6 italic">
+                        "Stewardship is not merely the tracking of benchmarks; it is the resilient engineering of assets designed to capture quiet efficiencies while surviving the storm."
+                    </p>
+
+                    <div class="w-full border-t border-brand-border/60 pt-4 flex flex-col gap-2 items-center text-xs text-brand-grayLight">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-phone text-brand-gold text-[10px]"></i> +82 10 4278 9808</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-envelope text-brand-gold text-[10px]"></i> KivonAsset@gmail.com</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-globe text-brand-gold text-[10px]"></i> KivonAsset.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="strategies" class="py-24 bg-brand-slate/30 border-y border-brand-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="h-[1px] w-8 bg-brand-gold"></span>
+                        <span class="text-xs font-semibold tracking-widest uppercase text-brand-gold">Strategic Framework</span>
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-serif font-bold tracking-tight">
+                        Our Core Investment Vectors
+                    </h2>
+                </div>
+                <p class="text-brand-grayLight font-light max-w-md mt-6 md:mt-0">
+                    We deliberately isolate ourselves from conventional herd consensus. We design bespoke avenues of growth.
+                </p>
+            </div>
+
+            <!-- Strategy Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Vector 1 -->
+                <div class="bg-[#0c0d10] border border-brand-border p-8 rounded-2xl hover:border-brand-gold/40 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-brand-slate flex items-center justify-center border border-brand-border group-hover:border-brand-gold/30 transition-all mb-8">
+                            <i class="fa-solid fa-microchip text-xl text-brand-gold"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Tech & Hardware Infrastructure</h3>
+                        <p class="text-brand-grayLight text-sm font-light leading-relaxed">
+                            Targeting robust macro-growth trends across global technology leaders, centering heavy high-conviction portfolios in vital semiconductor and production pipelines.
+                        </p>
+                    </div>
+                    <div class="border-t border-brand-border/60 pt-6 mt-8 flex items-center justify-between">
+                        <span class="text-xs text-brand-gold tracking-widest uppercase font-medium">Growth Focus</span>
+                        <i class="fa-solid fa-arrow-trend-up text-brand-gold opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                </div>
+
+                <!-- Vector 2 -->
+                <div class="bg-[#0c0d10] border border-brand-border p-8 rounded-2xl hover:border-brand-gold/40 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-brand-slate flex items-center justify-center border border-brand-border group-hover:border-brand-gold/30 transition-all mb-8">
+                            <i class="fa-solid fa-coins text-xl text-brand-gold"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Structured Alternative Income</h3>
+                        <p class="text-brand-grayLight text-sm font-light leading-relaxed">
+                            Generating resilient yield mechanisms utilizing advanced derivative structures, protected options layers, and highly uncorrelated macro assets.
+                        </p>
+                    </div>
+                    <div class="border-t border-brand-border/60 pt-6 mt-8 flex items-center justify-between">
+                        <span class="text-xs text-brand-gold tracking-widest uppercase font-medium">Yield Optimization</span>
+                        <i class="fa-solid fa-percent text-brand-gold opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                </div>
+
+                <!-- Vector 3 -->
+                <div class="bg-[#0c0d10] border border-brand-border p-8 rounded-2xl hover:border-brand-gold/40 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-brand-slate flex items-center justify-center border border-brand-border group-hover:border-brand-gold/30 transition-all mb-8">
+                            <i class="fa-solid fa-handshake text-xl text-brand-gold"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Venture Scale Alliances</h3>
+                        <p class="text-brand-grayLight text-sm font-light leading-relaxed">
+                            Leveraging deep pre-IPO networks to link East Asian capital routes directly with high-growth US and European software and space-tech enterprises.
+                        </p>
+                    </div>
+                    <div class="border-t border-brand-border/60 pt-6 mt-8 flex items-center justify-between">
+                        <span class="text-xs text-brand-gold tracking-widest uppercase font-medium">Strategic Equity</span>
+                        <i class="fa-solid fa-diagram-project text-brand-gold opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="global-network" class="py-24 bg-brand-dark border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="flex items-center justify-center gap-3 mb-6">
+                    <span class="h-[1px] w-8 bg-brand-gold"></span>
+                    <span class="text-xs font-semibold tracking-widest uppercase text-brand-gold">Cross-Border Synergies</span>
+                    <span class="h-[1px] w-8 bg-brand-gold"></span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-4">
+                    Global Network & Capital Corridors
+                </h2>
+                <p class="text-brand-grayLight font-light">
+                    Connecting premium sovereign capital routes directly with high-conviction growth corridors worldwide, seamlessly bridging regional liquidity with vital hubs of global innovation.
+                </p>
+            </div>
+
+            <!-- Intercontinental Grid Info Cards (4 Columns for perfect visual symmetry) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Node 1 -->
+                <div class="p-8 rounded-2xl bg-brand-slate/40 border border-brand-border hover:border-brand-gold/30 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-xs font-bold uppercase tracking-widest text-brand-gold">Silicon Valley Pipeline</span>
+                            <i class="fa-solid fa-network-wired text-brand-gold"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-3">Pre-IPO Tech Direct Allocations</h4>
+                        <p class="text-xs text-brand-grayLight leading-relaxed font-light">
+                            We maintain exclusive investment channels into emerging Tier-1 tech giants. Accessing late-stage venture opportunities, artificial intelligence infrastructure, and hyper-scale SaaS platforms allows us to drive premium uncorrelated returns.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="p-8 rounded-2xl bg-brand-slate/40 border border-brand-border hover:border-brand-gold/30 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-xs font-bold uppercase tracking-widest text-brand-gold">East Asia Hub</span>
+                            <i class="fa-solid fa-vault text-brand-gold"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-3">Sovereign & Family Offices</h4>
+                        <p class="text-xs text-brand-grayLight leading-relaxed font-light">
+                            Structured discretionary services designed specifically for ultra-high-net-worth families. We construct specialized strategic vehicles bridging institutional liquidity across Seoul, Singapore, and regional financial epicenters.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="p-8 rounded-2xl bg-brand-slate/40 border border-brand-border hover:border-brand-gold/30 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-xs font-bold uppercase tracking-widest text-brand-gold">Swiss Trust Framework</span>
+                            <i class="fa-solid fa-file-shield text-brand-gold"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-3">Custodial Escrow Standards</h4>
+                        <p class="text-xs text-brand-grayLight leading-relaxed font-light">
+                            Partnering with premier European private banks to offer ultimate security and legal clearance. We integrate rigorous regulatory compliance (AML/KYC) with bulletproof estate continuity structures.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Node 4 -->
+                <div class="p-8 rounded-2xl bg-brand-slate/40 border border-brand-border hover:border-brand-gold/30 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-xs font-bold uppercase tracking-widest text-brand-gold">Middle East Gateway</span>
+                            <i class="fa-solid fa-landmark text-brand-gold"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-3">Sovereign Wealth Alliance</h4>
+                        <p class="text-xs text-brand-grayLight leading-relaxed font-light">
+                            Securing co-investment channels with major Middle Eastern sovereign wealth funds. This grants exclusive access to participate in mega-scale international acquisitions and premium global infrastructure rollouts.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="risk-guard" class="py-24 bg-brand-slate/20 border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                
+                <!-- Left Details -->
+                <div class="lg:col-span-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="h-[1px] w-8 bg-brand-gold"></span>
+                        <span class="text-xs font-semibold tracking-widest uppercase text-brand-gold">Preservation Policy</span>
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6">
+                        Sovereign Risk Guardrails <span class="block text-xl md:text-2xl mt-2 font-sans font-light text-brand-gold">리스크 통제 및 자산 보전 규율</span>
+                    </h2>
+                    <p class="text-brand-grayLight font-light leading-relaxed mb-8 text-sm">
+                        Capital defense is built as the central axiom of KAM. Every allocated cent is systematically ring-fenced at Tier-1 deposit institutions to guard against counterparty or institutional insolvency.
+                        <br><br>
+                        <span class="text-white/95">KAM은 '절대 자금 보전'을 제1 연산 규칙으로 둡니다. 위탁된 파트너 자산은 당사 고유 계정과 법적으로 전격 격리(Ring-Fenced)되며, 세계 최고 등급의 신탁 금융기관(Custodian Banks)에 단독 위탁 예치되어 금융 환경 격변 시에도 안전을 온전히 보장받습니다.</span>
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4">
+                            <i class="fa-solid fa-circle-check text-brand-gold mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">Dual-Signature Execution Protocol (교차 교감 검수)</h4>
+                                <p class="text-xs text-brand-grayLight font-light">
+                                    All high-conviction strategies require synchronized multi-party clearance.
+                                    <span class="block mt-1 text-brand-gold/80">투자 의사결정 시 리스크 독립 감시역과 수석 운용역 간 서명 교차 검증제를 강제 시행합니다.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <i class="fa-solid fa-shield-halved text-brand-gold mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">Anti-Fragile Hedging Models (반취약성 포트폴리오)</h4>
+                                <p class="text-xs text-brand-grayLight font-light">
+                                    Continuous derivative protection layers are calibrated daily to eliminate tail risk.
+                                    <span class="block mt-1 text-brand-gold/80">옵션 보호막 칼라 설계를 상시 전개하여 블랙스완 발생 시에도 기저 보전 자금을 영구 보장합니다.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Control Cards -->
+                <div class="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-[#0c0d10] border border-brand-border rounded-xl">
+                        <div class="text-3xl font-bold text-brand-gold font-serif mb-2">100%</div>
+                        <h4 class="font-bold text-white mb-1">Assets Ring-Fenced</h4>
+                        <p class="text-[11px] text-brand-grayLight leading-relaxed">
+                            Complete balance insulation.
+                            <span class="block mt-1 text-brand-gold/80">자산의 전격 신탁 격리 및 운용사 신용위험 완전 면역 보장.</span>
+                        </p>
+                    </div>
+
+                    <div class="p-6 bg-[#0c0d10] border border-brand-border rounded-xl">
+                        <div class="text-3xl font-bold text-brand-gold font-serif mb-2">Quarterly</div>
+                        <h4 class="font-bold text-white mb-1">Independent Audits</h4>
+                        <p class="text-[11px] text-brand-grayLight leading-relaxed">
+                            Transparent sovereign checks.
+                            <span class="block mt-1 text-brand-gold/80">연 4회 사설 외부 감사 위원회의 자산 투명성 임의 실사 전개.</span>
+                        </p>
+                    </div>
+
+                    <div class="p-6 bg-[#0c0d10] border border-brand-border rounded-xl">
+                        <div class="text-3xl font-bold text-brand-gold font-serif mb-2">Zero</div>
+                        <h4 class="font-bold text-white mb-1">Tail-Loss Accidents</h4>
+                        <p class="text-[11px] text-brand-grayLight leading-relaxed">
+                            Engineered for high survivability.
+                            <span class="block mt-1 text-brand-gold/80">알고리즘 시스템 통제 가동 이래 원금 훼손 사고율 전무 기록.</span>
+                        </p>
+                    </div>
+
+                    <div class="p-6 bg-[#0c0d10] border border-brand-border rounded-xl">
+                        <div class="text-3xl font-bold text-brand-gold font-serif mb-2">Confidential</div>
+                        <h4 class="font-bold text-white mb-1">Air-Gapped Privacy</h4>
+                        <p class="text-[11px] text-brand-grayLight leading-relaxed">
+                            Ultra military protection.
+                            <span class="block mt-1 text-brand-gold/80">모든 파트너 자금 설계 데이터 독립 콜드스토리지 분리 암호 장벽 적용.</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="digital-card" class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="max-w-3xl mx-auto mb-16">
+                <div class="flex items-center justify-center gap-3 mb-6">
+                    <span class="h-[1px] w-8 bg-brand-gold"></span>
+                    <span class="text-xs font-semibold tracking-widest uppercase text-brand-gold">Corporate Identity</span>
+                    <span class="h-[1px] w-8 bg-brand-gold"></span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-4">
+                    The Physical & Digital Credential
+                </h2>
+                <p class="text-brand-grayLight font-light">
+                    An impeccable reflection of our physical card asset. Hover or tap the card below to see the interactive front and back representation.
+                </p>
+            </div>
+
+            <!-- Card Interactive Wrapper -->
+            <div class="flex flex-col items-center">
+                <!-- Flippable Card Outer Container -->
+                <div class="perspective-1000 w-full max-w-lg aspect-[1.66/1] mb-8 cursor-pointer group" onclick="toggleCardFlip()">
+                    <div id="interactiveCard" class="card-inner w-full h-full relative duration-700">
+                        
+                        <!-- CARD FRONT -->
+                        <div class="card-front absolute inset-0 w-full h-full bg-[#0d0e12] border border-[#23272f] rounded-2xl p-8 flex flex-col justify-between shadow-2xl select-none">
+                            <!-- Embossed background details -->
+                            <div class="absolute inset-0 opacity-[0.06] flex items-center justify-center overflow-hidden rounded-2xl pointer-events-none">
+                                <i class="fa-solid fa-earth-americas text-[400px]"></i>
+                            </div>
+                            
+                            <!-- Card Front Top Header -->
+                            <div class="flex justify-between items-start relative z-10">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full border border-brand-gold/30 flex items-center justify-center bg-brand-slate/40">
+                                        <span class="text-xs font-serif font-bold text-brand-gold">K</span>
+                                    </div>
+                                    <span class="text-[11px] font-bold tracking-widest text-brand-grayLight">KIVON</span>
+                                </div>
+                                <span class="text-[8px] tracking-normal text-brand-gold border border-brand-gold/20 bg-brand-slate/50 px-2 py-1 rounded">Asset Management</span>
+                            </div>
+
+                            <!-- Front Logo/Icon Centerpiece -->
+                            <div class="text-center relative z-10 flex flex-col items-center">
+                                <i class="fa-solid fa-circle-nodes text-3xl text-brand-gold mb-2"></i>
+                                <span class="text-[8px] tracking-[0.4em] uppercase text-brand-grayLight">Global Investment Platform</span>
+                            </div>
+
+                            <!-- Front Footer -->
+                            <div class="flex justify-between items-end relative z-10 border-t border-brand-border/40 pt-4">
+                                <div class="text-left">
+                                    <span class="text-[8px] text-brand-grayLight block uppercase tracking-widest">Client Identity</span>
+                                    <span class="text-[10px] text-white font-medium tracking-wide">Institutional Access Only</span>
+                                </div>
+                                <i class="fa-solid fa-compass text-lg text-brand-gold/60"></i>
+                            </div>
+                        </div>
+
+                        <!-- CARD BACK (Detailed Info with Correct Case Email and Github URL) -->
+                        <div class="card-back absolute inset-0 w-full h-full bg-[#0d0e12] border border-[#23272f] rounded-2xl p-8 flex flex-col justify-between shadow-2xl select-none">
+                            <!-- Card Back Top Header -->
+                            <div class="flex justify-between items-start">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-7 h-7 rounded-full border border-brand-gold/30 flex items-center justify-center bg-brand-slate/40">
+                                        <span class="text-[10px] font-serif font-bold text-brand-gold">KAM</span>
+                                    </div>
+                                    <span class="text-[9px] font-bold tracking-normal text-brand-grayLight">Kivon Asset Management</span>
+                                </div>
+                                <i class="fa-solid fa-qrcode text-xl text-brand-gold/45"></i>
+                            </div>
+
+                            <!-- Middle Details (CEO Information) -->
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold tracking-wider text-white">MIN BYUNGKYU</h3>
+                                <span class="text-[10px] tracking-[0.25em] text-brand-gold uppercase">CEO</span>
+                            </div>
+
+                            <!-- Footer (Communication Lines) -->
+                            <div class="border-t border-brand-border/40 pt-4 flex justify-between items-end text-[9px] text-brand-grayLight font-light text-left">
+                                <div class="space-y-1">
+                                    <div><span class="text-brand-gold font-medium">MOBILE:</span> +82 10 4278 9808</div>
+                                    <div><span class="text-brand-gold font-medium">E-MAIL:</span> KivonAsset@gmail.com</div>
+                                </div>
+                                <div class="text-right">
+                                    <div>https://KivonAsset.com</div>
+                                    <div class="text-[8px] text-brand-gold/50 uppercase tracking-widest mt-0.5">Private Protocol</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Toggle Instruction Label -->
+                <button onclick="toggleCardFlip()" class="px-5 py-2 rounded-full border border-brand-border bg-[#0c0d10] text-xs text-brand-grayLight hover:text-white hover:border-brand-gold/30 transition-all duration-300">
+                    <i class="fa-solid fa-rotate mr-2 text-brand-gold"></i> Click / Tap Card to Flip
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-brand-slate/20 border-y border-brand-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <div class="flex items-center justify-center gap-3 mb-6">
+                    <span class="h-[1px] w-8 bg-brand-gold"></span>
+                    <span class="text-xs font-semibold tracking-widest uppercase text-brand-gold">Analytical Interface</span>
+                    <span class="h-[1px] w-8 bg-brand-gold"></span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-4">
+                    Dynamic Compound Return Estimator
+                </h2>
+                <p class="text-brand-grayLight font-light">
+                    Adjust the allocations below to simulate potential growth projections over your structured timeline under KAM management parameters.
+                </p>
+            </div>
+
+            <!-- Return Calculator Structure -->
+            <div class="max-w-3xl mx-auto bg-[#0c0d10] border border-brand-border rounded-3xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <!-- Sliders -->
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between text-xs uppercase tracking-wider text-brand-grayLight mb-2">
+                                <span>Initial Capital Allocation</span>
+                                <span class="text-white font-semibold" id="initialVal">$5,000,000</span>
+                            </div>
+                            <input type="range" min="1000000" max="50000000" step="500000" value="5000000" id="initialSlider" class="w-full accent-brand-gold bg-brand-slate h-1 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs uppercase tracking-wider text-brand-grayLight mb-2">
+                                <span>Timeline Horizons</span>
+                                <span class="text-white font-semibold" id="timelineVal">5 Years</span>
+                            </div>
+                            <input type="range" min="1" max="25" step="1" value="5" id="timelineSlider" class="w-full accent-brand-gold bg-brand-slate h-1 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs uppercase tracking-wider text-brand-grayLight mb-2">
+                                <span>Target Return Rate (p.a.)</span>
+                                <span class="text-white font-semibold" id="rateVal">8.5%</span>
+                            </div>
+                            <input type="range" min="3" max="20" step="0.5" value="8.5" id="rateSlider" class="w-full accent-brand-gold bg-brand-slate h-1 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                    </div>
+
+                    <!-- Output display -->
+                    <div class="bg-brand-slate/40 border border-brand-border p-6 rounded-2xl text-center">
+                        <span class="text-xs uppercase tracking-widest text-brand-gold block mb-2">Projected Asset Value</span>
+                        <div class="text-3xl md:text-4xl font-serif font-bold text-white mb-2" id="projectedTotal">$7,518,283</div>
+                        <span class="text-[10px] text-brand-grayLight block leading-relaxed">
+                            Calculated assuming static annual compounding intervals. Past performance is not indicative of future yield indicators.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 md:py-32 bg-brand-slate/30">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16">
+            
+            <!-- Left Contact Info Details -->
+            <div class="lg:col-span-5">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="h-[1px] w-8 bg-brand-gold"></span>
+                    <span class="text-xs font-semibold tracking-widest uppercase text-brand-gold">Direct Channels</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-8">
+                    Discuss Your Financial Objectives
+                </h2>
+                <p class="text-brand-grayLight font-light leading-relaxed mb-10">
+                    We invite private entities, endowments, and corporate principals to initiate high-discretion consults. Please reach through our direct executive channels.
+                </p>
+
+                <!-- Communication channels list -->
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4 p-5 rounded-2xl bg-[#0c0d10] border border-brand-border">
+                        <div class="w-10 h-10 rounded-xl bg-brand-slate flex items-center justify-center text-brand-gold border border-brand-border">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <span class="block text-[9px] tracking-widest text-brand-grayLight uppercase mb-1">Direct Line</span>
+                            <a href="tel:+821042789808" class="font-semibold text-white hover:text-brand-gold transition-colors">+82 10 4278 9808</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 p-5 rounded-2xl bg-[#0c0d10] border border-brand-border">
+                        <div class="w-10 h-10 rounded-xl bg-brand-slate flex items-center justify-center text-brand-gold border border-brand-border">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <span class="block text-[9px] tracking-widest text-brand-grayLight uppercase mb-1">Official Inbox</span>
+                            <a href="mailto:KivonAsset@gmail.com" class="font-semibold text-white hover:text-brand-gold transition-colors">KivonAsset@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 p-5 rounded-2xl bg-[#0c0d10] border border-brand-border">
+                        <div class="w-10 h-10 rounded-xl bg-brand-slate flex items-center justify-center text-brand-gold border border-brand-border">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <div>
+                            <span class="block text-[9px] tracking-widest text-brand-grayLight uppercase mb-1">Global Domain</span>
+                            <a href="https://KivonAsset.com" target="_blank" class="font-semibold text-white hover:text-brand-gold transition-colors">https://KivonAsset.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Interactive Form Column -->
+            <div class="lg:col-span-7 bg-[#0c0d10] border border-brand-border p-8 md:p-10 rounded-3xl relative overflow-hidden">
+                <form id="contactForm" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-brand-grayLight mb-2" for="name">Your Name</label>
+                            <input class="w-full bg-brand-slate/60 border border-brand-border focus:border-brand-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition-colors" type="text" id="name" required placeholder="Min Byungkyu">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-brand-grayLight mb-2" for="email">Email Address</label>
+                            <input class="w-full bg-brand-slate/60 border border-brand-border focus:border-brand-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition-colors" type="email" id="email" required placeholder="KivonAsset@gmail.com">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-brand-grayLight mb-2" for="interest">Sovereign Focus Area</label>
+                        <select class="w-full bg-brand-slate/60 border border-brand-border focus:border-brand-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition-colors" id="interest">
+                            <option value="growth">Tech & Semiconductor Pipelines</option>
+                            <option value="alternative">Structured Yield Alternatives</option>
+                            <option value="venture">Venture scale Pre-IPO Allocations</option>
+                            <option value="other">Institutional Advisory Engagement</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-brand-grayLight mb-2" for="message">Transmission Details</label>
+                        <textarea class="w-full h-32 bg-brand-slate/60 border border-brand-border focus:border-brand-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition-colors" id="message" required placeholder="Please state your general targets or schedule a phone protocol..."></textarea>
+                    </div>
+
+                    <button class="w-full py-4 rounded-xl text-sm font-semibold tracking-wider bg-brand-gold text-brand-dark hover:bg-brand-goldLight transition-all duration-300 font-medium" type="submit">
+                        Transmit Consultation Protocol
+                    </button>
+                </form>
+
+                <!-- Successful Submission overlay (Initially hidden) -->
+                <div id="successToast" class="hidden absolute inset-0 bg-[#0c0d10] rounded-3xl flex flex-col items-center justify-center p-8 text-center z-20">
+                    <div class="w-16 h-16 rounded-full border-2 border-brand-gold flex items-center justify-center text-brand-gold text-2xl mb-6">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif font-bold mb-3">Transmission Successful</h3>
+                    <p class="text-brand-grayLight text-sm font-light max-w-sm mb-8">
+                        Thank you for initiating communication. CEO Min Byungkyu or a designated key partner will review your specifications and contact your line within 12 business hours.
+                    </p>
+                    <button onclick="resetContactForm()" class="px-6 py-2.5 rounded-full text-xs font-semibold tracking-widest uppercase border border-brand-border text-brand-grayLight hover:text-white hover:border-brand-gold transition-all duration-300">
+                        Perform Another Query
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="border-t border-brand-border bg-[#07080a] py-12 text-brand-grayLight text-xs">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full border border-brand-gold/30 flex items-center justify-center bg-brand-slate">
+                    <span class="text-sm font-serif font-bold text-brand-gold">KAM</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-serif font-bold text-white tracking-widest text-base">KIVON</span>
+                    <span class="text-xs uppercase tracking-tight text-brand-grayLight font-medium">Asset Management</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-8 text-[11px]">
+                <span class="hover:text-brand-gold transition-colors cursor-pointer">Disclaimer</span>
+                <span class="hover:text-brand-gold transition-colors cursor-pointer">Privacy Protocol</span>
+                <span class="hover:text-brand-gold transition-colors cursor-pointer">Disclosures</span>
+            </div>
+
+            <div class="text-center md:text-right text-[10px]">
+                &copy; 2026 Kivon Asset Management (KAM). All Rights Reserved. Strictly Private & Confidential.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation Bar Style Modification on Scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-brand-dark');
+                nav.classList.remove('bg-brand-dark/90');
+                nav.classList.add('py-1');
+            } else {
+                nav.classList.remove('bg-brand-dark');
+                nav.classList.add('bg-brand-dark/90');
+                nav.classList.remove('py-1');
+            }
+        });
+
+        // Business Card Rotation Event
+        function toggleCardFlip() {
+            const card = document.getElementById('interactiveCard');
+            card.classList.toggle('card-flipped');
+        }
+
+        const initialSlider = document.getElementById('initialSlider');
+        const timelineSlider = document.getElementById('timelineSlider');
+        const rateSlider = document.getElementById('rateSlider');
+
+        const initialVal = document.getElementById('initialVal');
+        const timelineVal = document.getElementById('timelineVal');
+        const rateVal = document.getElementById('rateVal');
+        const projectedTotal = document.getElementById('projectedTotal');
+
+        function formatCurrency(num) {
+            return '$' + num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function calculateReturns() {
+            const p = parseFloat(initialSlider.value);
+            const t = parseFloat(timelineSlider.value);
+            const r = parseFloat(rateSlider.value) / 100;
+
+            initialVal.innerText = formatCurrency(p);
+            timelineVal.innerText = t === 1 ? '1 Year' : `${t} Years`;
+            rateVal.innerText = `${rateSlider.value}%`;
+
+            // Standard compounding formula A = P(1+r)^t
+            const result = p * Math.pow((1 + r), t);
+            projectedTotal.innerText = formatCurrency(result);
+        }
+
+        [initialSlider, timelineSlider, rateSlider].forEach(slider => {
+            slider.addEventListener('input', calculateReturns);
+        });
+
+        // Simulation Contact Request Handlers
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const successToast = document.getElementById('successToast');
+            successToast.classList.remove('hidden');
+        }
+
+        function resetContactForm() {
+            const form = document.getElementById('contactForm');
+            const successToast = document.getElementById('successToast');
+            form.reset();
+            successToast.classList.add('hidden');
+        }
+
+        const canvas = document.getElementById('ambientCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = Math.random() * 1.5 + 0.5;
+                this.speedX = Math.random() * 0.2 - 0.1;
+                this.speedY = Math.random() * 0.2 - 0.1;
+                this.alpha = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#c5a059'; // Premium gold color shade
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor(window.innerWidth / 15), 60);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+    </script>
+</body>
+</html>
